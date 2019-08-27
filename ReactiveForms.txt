@@ -1,0 +1,59 @@
+Reactive.component.html
+------------------------------
+
+<h1>Reactive Form Example</h1>
+<form [formGroup]="userdetails" class="col-5 bg-info mx-auto" (submit)="save(userdetails)">
+    <div class="form-group">
+        <label>Enter Name:</label>
+    <input formControlName="uname">
+    <section *ngIf="userdetails.controls.uname.invalid" style="color: red">
+        <p *ngIf="userdetails.controls.uname.errors.required" name is required></p>
+        <p *ngIf="userdetails.controls.uname.errors.minlength" Atleast 4 characters></p>
+    <p>Error in Name Field</p>
+    </section>
+    <br>
+    <label>Enter Age</label>
+    <input formControlName="age"> 
+    <section *ngIf="userdetails.controls.age.invalid" style="color: red">
+            <p *ngIf="userdetails.controls.age.errors.required">Age is required</p>
+            <p *ngIf="userdetails.controls.age.errors.min"> After 18 Years</p>
+            <p *ngIf="userdetails.controls.age.errors.max">After 50 Years</p>
+            <p>Please Enter Age from 18 to 50 Years only</p>
+           
+        </section>
+
+<button>Register</button>
+</div>
+</form>
+<pre>{{userdetails.value|json}}</pre>
+--------------------------------------------------------
+Reactive.component.ts
+---------------------------
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-reactiveformexample',
+  templateUrl: './reactiveformexample.component.html',
+  styleUrls: ['./reactiveformexample.component.css']
+})
+export class ReactiveformexampleComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+//Model is created for Form 
+
+userdetails=new FormGroup({
+  uname:new FormControl('',[Validators.required, Validators.minLength(3)]),
+  age: new FormControl('',[Validators.required,Validators.min(18),Validators.max(50)])
+}) 
+
+
+}
+
+--------------------------------------------------------------
+
+
